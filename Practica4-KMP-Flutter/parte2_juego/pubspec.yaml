@@ -41,6 +41,8 @@ dependencies:
   path: ^1.9.1
   xml: ^7.1.0
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
