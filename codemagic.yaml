@@ -1,0 +1,92 @@
+# Codemagic CI: compila y prueba ambas apps en el SIMULADOR de iOS (sin firma,
+# sin cuenta de Apple Developer ni iPhone). Las pruebas de integración toman
+# capturas reales que quedan como artefactos descargables.
+definitions:
+  scripts:
+    - &boot_simulator
+      name: Arrancar simulador de iPhone
+      script: |
+        xcrun simctl list devices available
+        UDID=$(xcrun simctl list devices available | grep -E "iPhone [0-9]+" | grep -v "SE" | tail -1 | grep -oE '[0-9A-F]{8}-([0-9A-F]{4}-){3}[0-9A-F]{12}')
+        echo "Simulador elegido: $UDID"
+        xcrun simctl boot "$UDID" || true
+        xcrun simctl bootstatus "$UDID" -b
+        echo "SIM_UDID=$UDID" >> $CM_ENV
+
+workflows:
+  ios-parte1-gestor:
+    name: iOS - Parte 1 Gestor de archivos
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Dependencias
+        script: |
+          cd Practica4-KMP-Flutter/parte1_gestor_archivos
+          flutter --version
+          flutter pub get
+      - name: Analisis estatico
+        script: |
+          cd Practica4-KMP-Flutter/parte1_gestor_archivos
+          flutter analyze --no-fatal-infos
+      - *boot_simulator
+      - name: Prueba de integracion + capturas (iOS)
+        script: |
+          cd Practica4-KMP-Flutter/parte1_gestor_archivos
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d "$SIM_UDID"
+      - name: Compilar app para simulador
+        script: |
+          cd Practica4-KMP-Flutter/parte1_gestor_archivos
+          flutter build ios --simulator --debug
+          cd build/ios/iphonesimulator && zip -qr ../../../parte1_gestor_ios_simulador.zip Runner.app
+    artifacts:
+      - Practica4-KMP-Flutter/parte1_gestor_archivos/screenshots/*.png
+      - Practica4-KMP-Flutter/parte1_gestor_archivos/*.zip
+
+  ios-parte2-juego:
+    name: iOS - Parte 2 Juego Apagon
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Dependencias
+        script: |
+          cd Practica4-KMP-Flutter/parte2_juego
+          flutter --version
+          flutter pub get
+      - name: Analisis estatico y pruebas unitarias
+        script: |
+          cd Practica4-KMP-Flutter/parte2_juego
+          flutter analyze --no-fatal-infos
+          flutter test
+      - *boot_simulator
+      - name: Prueba de integracion + capturas (iOS)
+        script: |
+          cd Practica4-KMP-Flutter/parte2_juego
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d "$SIM_UDID"
+      - name: Compilar app para simulador
+        script: |
+          cd Practica4-KMP-Flutter/parte2_juego
+          flutter build ios --simulator --debug
+          cd build/ios/iphonesimulator && zip -qr ../../../parte2_juego_ios_simulador.zip Runner.app
+    artifacts:
+      - Practica4-KMP-Flutter/parte2_juego/screenshots/*.png
+      - Practica4-KMP-Flutter/parte2_juego/*.zip
