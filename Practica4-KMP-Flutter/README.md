@@ -42,7 +42,10 @@ cd ios && pod install && cd ..
 open ios/Runner.xcworkspace   # Signing & Capabilities: elegir Team; Deployment Target = 15.0
 flutter run -d <simulador-o-iPhone>
 ```
-Preparación de Xcode: instalar Xcode y *Command Line Tools*, aceptar licencia (`sudo xcodebuild -license`), `sudo gem install cocoapods` (o `brew install cocoapods`), abrir un simulador (`open -a Simulator`) y comprobar con `flutter doctor`.
+### iOS con Codemagic (sin Mac ni iPhone)
+El archivo `codemagic.yaml` (raíz del repositorio) define dos workflows (`ios-parte1-gestor` e `ios-parte2-juego`) que, en una Mac en la nube: instalan dependencias, analizan el código, arrancan un **simulador de iPhone**, ejecutan la misma prueba de integración que en Android y guardan las capturas (`screenshots/*.png`) como artefactos, además de compilar `Runner.app` para el simulador. No requieren firma ni cuenta de Apple Developer. Para ejecutarlos: Codemagic → la app → *Start new build* → elegir el workflow y la rama `main` (también se lanzan con cada push a `main`).
+
+Preparación de Xcode (si se compila localmente en una Mac): instalar Xcode y *Command Line Tools*, aceptar licencia (`sudo xcodebuild -license`), `sudo gem install cocoapods` (o `brew install cocoapods`), abrir un simulador (`open -a Simulator`) y comprobar con `flutter doctor`.
 En `ios/Runner/Info.plist` de ambas apps se añadieron `UIFileSharingEnabled` y `LSSupportsOpeningDocumentsInPlace` para que el sandbox de la app sea visible en la app *Files*.
 
 ## 4. Arquitectura e implementación
@@ -81,23 +84,24 @@ Pruebas automáticas (`cd parte2_juego && flutter test`): ida y vuelta TXT/XML/J
 
 ### Matriz de pruebas
 
-> Probado hasta ahora en un único dispositivo Android real (Android 14). Las demás filas e iOS siguen pendientes. Las columnas *Resultado obtenido* y *Evidencia* deben completarse con la ejecución real en cada sistema (no se rellenan sin haberlas hecho).
+Las pruebas automáticas (`integration_test/app_test.dart` en cada app) se ejecutan con `flutter drive` y guardan capturas en `screenshots/`; las capturas de Android se copiaron a `capturas/`. Las filas marcadas como pendientes no se han ejecutado todavía.
 
-| # | SO / versión | Dispositivo / simulador | Pasos | Resultado esperado | Resultado obtenido | Evidencia |
-|---|---|---|---|---|---|---|
-| 1 | Android | _pendiente_ | Instalar P1, modo avión, abrir app | Funciona sin Internet | _pendiente_ | captura |
-| 2 | Android 14 · Samsung SM-G998U (físico, USB) | P1: abrir `datos.json`, `config.xml`, `notas.md` | Resaltado y formato correctos | Resaltado y formato correctos en JSON y XML (iOS pendiente) | `capturas/p1_android_json.png`, `p1_android_xml.png` |
-| 3 | Android 14 · Samsung SM-G998U (físico, USB) | P1: abrir `imagen_demo.png`, zoom y rotar | Zoom y rotación fluidos | Imagen mostrada con miniatura y visor; botones de zoom/rotación presentes (zoom táctil no verificado; iOS pendiente) | `capturas/p1_android_imagen.png` |
-| 4 | Android/iOS | _pendiente_ | P1: elegir carpeta y cancelar el selector | Mensaje, sin cierre | _pendiente_ | captura |
-| 5 | Android/iOS | _pendiente_ | P1: renombrar, copiar, mover, eliminar (confirmar) | Operaciones correctas | _pendiente_ | captura |
-| 6 | Android/iOS | _pendiente_ | P1: abrir archivo no soportado | Diálogo abrir/compartir/exportar | _pendiente_ | captura |
-| 7 | Android/iOS | _pendiente_ | P1: favoritos y recientes, reiniciar app | Persisten | _pendiente_ | captura |
-| 8 | Android 14 · Samsung SM-G998U (físico, USB) | P2: jugar nivel 1, guardar en .txt/.xml/.json | 3 archivos con metadatos | Guardado en .xml correcto (contenido verificado); .txt y .json cubiertos por pruebas unitarias; iOS pendiente | `capturas/p2_android_guardar_dialogo.png` |
-| 9 | Android 14 · Samsung SM-G998U (físico, USB) | P2: cerrar la app a mitad de partida y reabrir | "Continuar" restaura estado | Tras `force-stop` y reabrir, aparece "Continuar" con 2 mov. y el progreso (iOS pendiente) | `capturas/p2_android_continuar.png` |
-| 10 | Android 14 · Samsung SM-G998U (físico, USB) | P2: dañar un archivo guardado (vaciar/truncar) | Error legible, otras partidas intactas | Archivos vacío y TXT incompleto marcados como "Dañada" con mensaje legible; la partida válida sigue intacta (iOS pendiente) | `capturas/p2_android_lista_partidas.png` |
-| 11 | Android/iOS | _pendiente_ | P2: exportar/compartir partida | Se envía al destino elegido | _pendiente_ | captura |
-| 12 | Android/iOS | _pendiente_ | Cambiar tema Guinda/Azul y modo claro/oscuro del sistema | Colores adaptados | _pendiente_ | captura |
-| 13 | Android/iOS | _pendiente_ | Rotar el dispositivo | UI responsiva | _pendiente_ | captura |
+| # | SO / dispositivo | Pasos | Resultado esperado | Resultado obtenido | Evidencia |
+|---|---|---|---|---|---|
+| 1 | Ambos | Instalar y abrir sin Internet (modo avión) | Funciona sin Internet | Pendiente de probar en modo avión (las apps no usan red) | — |
+| 2 | Android 14 · Samsung SM-G998U (físico) | P1: abrir `datos.json` y `config.xml` | Resaltado y formato correctos | Correcto | `capturas/p1_android_03_json.png`, `p1_android_04_xml.png` |
+| 3 | Android 14 · Samsung SM-G998U (físico) | P1: abrir imagen, girar, ver metadatos | Imagen visible, rotación, metadatos con MIME | Correcto (`image/png`); zoom táctil no automatizado | `capturas/p1_android_06_imagen_rotada.png`, `p1_android_07_metadatos.png` |
+| 4 | Android 14 · Samsung SM-G998U (físico) | P1: abrir JSON inválido | Aviso legible, no se cierra | Correcto: "JSON inválido" | `capturas/p1_android_05_json_invalido.png` |
+| 5 | Android 14 · Samsung SM-G998U (físico) | P1: renombrar, copiar, mover y eliminar (con confirmación) | Operaciones correctas en disco | Correcto (verificado en el sistema de archivos) | `capturas/p1_android_09_menu_archivo.png`, `p1_android_10_elegir_destino.png`, `p1_android_11_confirmar_eliminar.png` |
+| 6 | Android 14 · Samsung SM-G998U (físico) | P1: abrir archivo `.bin` | Diálogo abrir/compartir/exportar | Correcto | `capturas/p1_android_08_formato_no_soportado.png` |
+| 7 | Android 14 · Samsung SM-G998U (físico) | P1: favoritos, recientes y breadcrumbs | Listados y navegación correctos | Correcto | `capturas/p1_android_12_breadcrumbs.png`, `p1_android_13_recientes.png`, `p1_android_14_favoritos.png` |
+| 8 | Android 14 · Samsung SM-G998U (físico) | P2: guardar partida en .txt, .xml y .json | 3 archivos válidos con metadatos | Correcto (3 archivos, 2 mov. cada uno) | `capturas/p2_android_03_dialogo_guardar.png`, `p2_android_04_lista_partidas.png` |
+| 9 | Android 14 · Samsung SM-G998U (físico) | P2: cerrar la app a mitad de partida y reabrir | "Continuar" restaura el estado | Correcto | `capturas/p2_android_continuar.png` |
+| 10 | Android 14 · Samsung SM-G998U (físico) | P2: archivos vacío, TXT incompleto y XML mal formado | Error legible, otras partidas intactas | Correcto: 3 "Dañada" y 3 válidas | `capturas/p2_android_04_lista_partidas.png` |
+| 11 | Android 14 · Samsung SM-G998U (físico) | P2: nivel 2, deshacer, tema Azul | Cuadrícula 5x5, deshacer revierte, tema azul | Correcto | `capturas/p2_android_08_nivel2.png`, `p2_android_06_opciones_azul.png` |
+| 12 | Ambos | Exportar/compartir con el selector del sistema | Se envía al destino elegido | Pendiente (requiere interacción manual con el selector) | — |
+| 13 | Android 14 · Samsung SM-G998U (físico) | Cambiar modo claro/oscuro y rotar la pantalla | Colores y UI adaptados | Oscuro verificado; claro y rotación pendientes | — |
+| 14 | iOS (simulador Codemagic) | Pruebas de integración de P1 y P2 (mismas que Android) | Pasan en iOS 15+ y generan capturas | Pendiente: ejecutar el workflow de Codemagic | Artefactos de Codemagic |
 
 ## 6. Estado actual y limitaciones
 
