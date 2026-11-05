@@ -81,20 +81,20 @@ Pruebas automáticas (`cd parte2_juego && flutter test`): ida y vuelta TXT/XML/J
 
 ### Matriz de pruebas
 
-> Las columnas *Resultado obtenido* y *Evidencia* deben completarse con la ejecución real en cada sistema (no se rellenan sin haberlas hecho).
+> Probado hasta ahora en un único dispositivo Android real (Android 14). Las demás filas e iOS siguen pendientes. Las columnas *Resultado obtenido* y *Evidencia* deben completarse con la ejecución real en cada sistema (no se rellenan sin haberlas hecho).
 
 | # | SO / versión | Dispositivo / simulador | Pasos | Resultado esperado | Resultado obtenido | Evidencia |
 |---|---|---|---|---|---|---|
 | 1 | Android | _pendiente_ | Instalar P1, modo avión, abrir app | Funciona sin Internet | _pendiente_ | captura |
-| 2 | Android/iOS | _pendiente_ | P1: abrir `datos.json`, `config.xml`, `notas.md` | Resaltado y formato correctos | _pendiente_ | captura |
-| 3 | Android/iOS | _pendiente_ | P1: abrir `imagen_demo.png`, zoom y rotar | Zoom y rotación fluidos | _pendiente_ | captura |
+| 2 | Android 14 · Samsung SM-G998U (físico, USB) | P1: abrir `datos.json`, `config.xml`, `notas.md` | Resaltado y formato correctos | Resaltado y formato correctos en JSON y XML (iOS pendiente) | `capturas/p1_android_json.png`, `p1_android_xml.png` |
+| 3 | Android 14 · Samsung SM-G998U (físico, USB) | P1: abrir `imagen_demo.png`, zoom y rotar | Zoom y rotación fluidos | Imagen mostrada con miniatura y visor; botones de zoom/rotación presentes (zoom táctil no verificado; iOS pendiente) | `capturas/p1_android_imagen.png` |
 | 4 | Android/iOS | _pendiente_ | P1: elegir carpeta y cancelar el selector | Mensaje, sin cierre | _pendiente_ | captura |
 | 5 | Android/iOS | _pendiente_ | P1: renombrar, copiar, mover, eliminar (confirmar) | Operaciones correctas | _pendiente_ | captura |
 | 6 | Android/iOS | _pendiente_ | P1: abrir archivo no soportado | Diálogo abrir/compartir/exportar | _pendiente_ | captura |
 | 7 | Android/iOS | _pendiente_ | P1: favoritos y recientes, reiniciar app | Persisten | _pendiente_ | captura |
-| 8 | Android/iOS | _pendiente_ | P2: jugar nivel 1, guardar en .txt/.xml/.json | 3 archivos con metadatos | _pendiente_ | captura |
-| 9 | Android/iOS | _pendiente_ | P2: cerrar la app a mitad de partida y reabrir | "Continuar" restaura estado | _pendiente_ | captura |
-| 10 | Android/iOS | _pendiente_ | P2: dañar un archivo guardado (vaciar/truncar) | Error legible, otras partidas intactas | _pendiente_ | captura |
+| 8 | Android 14 · Samsung SM-G998U (físico, USB) | P2: jugar nivel 1, guardar en .txt/.xml/.json | 3 archivos con metadatos | Guardado en .xml correcto (contenido verificado); .txt y .json cubiertos por pruebas unitarias; iOS pendiente | `capturas/p2_android_guardar_dialogo.png` |
+| 9 | Android 14 · Samsung SM-G998U (físico, USB) | P2: cerrar la app a mitad de partida y reabrir | "Continuar" restaura estado | Tras `force-stop` y reabrir, aparece "Continuar" con 2 mov. y el progreso (iOS pendiente) | `capturas/p2_android_continuar.png` |
+| 10 | Android 14 · Samsung SM-G998U (físico, USB) | P2: dañar un archivo guardado (vaciar/truncar) | Error legible, otras partidas intactas | Archivos vacío y TXT incompleto marcados como "Dañada" con mensaje legible; la partida válida sigue intacta (iOS pendiente) | `capturas/p2_android_lista_partidas.png` |
 | 11 | Android/iOS | _pendiente_ | P2: exportar/compartir partida | Se envía al destino elegido | _pendiente_ | captura |
 | 12 | Android/iOS | _pendiente_ | Cambiar tema Guinda/Azul y modo claro/oscuro del sistema | Colores adaptados | _pendiente_ | captura |
 | 13 | Android/iOS | _pendiente_ | Rotar el dispositivo | UI responsiva | _pendiente_ | captura |
