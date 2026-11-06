@@ -102,7 +102,7 @@ Las pruebas automáticas (`integration_test/app_test.dart` en cada app) se ejecu
 | 12 | Ambos | Exportar/compartir con el selector del sistema | Se envía al destino elegido | Pendiente (requiere interacción manual con el selector) | — |
 | 13 | Android 14 · Samsung SM-G998U (físico) | Cambiar modo claro/oscuro y rotar la pantalla | Colores y UI adaptados | Oscuro verificado; claro y rotación pendientes | — |
 | 14 | iOS · simulador de iPhone en Codemagic (Xcode, macOS) | P1: prueba de integración completa (explorar, JSON/XML, imagen, metadatos, formato no soportado, renombrar/copiar/eliminar, favoritos, recientes, breadcrumbs, tema Azul) | Pasa en iOS y genera capturas | Correcto: build verde, 15/15 capturas | `capturas/p1_ios_01_explorar.png` … `p1_ios_15_tema_azul.png` |
-| 15 | iOS · simulador de iPhone en Codemagic | P2: prueba de integración (guardar en 3 formatos, archivos dañados, tema Azul, nivel 2) | Pasa en iOS y genera capturas | Pendiente: build en ejecución | — |
+| 15 | iOS · simulador de iPhone en Codemagic | P2: prueba de integración (guardar en .txt/.xml/.json, archivos dañados, tema Azul, nivel 2, deshacer) | Pasa en iOS y genera capturas | Correcto: build verde, 8/8 capturas; 3 partidas válidas y 3 archivos marcados "Dañada" | `capturas/p2_ios_01_menu.png` … `p2_ios_08_nivel2.png` |
 
 ## 6. Estado actual y limitaciones
 
