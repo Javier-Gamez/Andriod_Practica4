@@ -136,7 +136,7 @@ Vista horizontal — Android: <img src="Practica4-KMP-Flutter/capturas/p1_androi
 | <img src="Practica4-KMP-Flutter/capturas/p2_android_08_nivel2.png" width="230"> | <img src="Practica4-KMP-Flutter/capturas/p2_ios_08_nivel2.png" width="230"> |
 | Nivel 2 (5x5), tema Azul | Nivel 2 (5x5) |
 
-Vista horizontal (Android): <img src="Practica4-KMP-Flutter/capturas/p2_android_09_horizontal.png" width="520">
+Vista horizontal — Android: <img src="Practica4-KMP-Flutter/capturas/p2_android_09_horizontal.png" width="420"> · iOS: <img src="Practica4-KMP-Flutter/capturas/p2_ios_09_horizontal.png" width="420">
 Modo avión + modo claro (Android): <img src="Practica4-KMP-Flutter/capturas/p2_android_avion_claro_menu.png" width="230">
 
 ## 6. Implementación
@@ -199,13 +199,13 @@ Toda la lógica y la UI están en Dart (un único código para ambos sistemas). 
 | 13 | iOS · simulador de iPhone (Codemagic) | P1: prueba de integración completa (explorar, JSON/XML, imagen, metadatos, formato no soportado, renombrar/copiar/eliminar, favoritos, recientes, breadcrumbs, tema Azul) | Pasa en iOS y genera capturas | Correcto: build verde, 15/15 capturas | `p1_ios_01_explorar.png` … `p1_ios_15_tema_azul.png` |
 | 14 | iOS · simulador de iPhone (Codemagic) | P2: prueba de integración (3 formatos, archivos dañados, tema Azul, nivel 2, deshacer) | Pasa en iOS y genera capturas | Correcto: build verde, 8/8 capturas; 3 partidas válidas y 3 "Dañada" | `p2_ios_01_menu.png` … `p2_ios_08_nivel2.png` |
 | 15 | Android / iOS | Selector del sistema: "Elegir carpeta", "Abrir archivo(s)" (P1), exportar y compartir (P2) | Funciona con SAF / Document Picker; respeta cancelación | **Pendiente** (requiere interacción manual con pantallas del sistema) | — |
-| 16 | iOS · simulador de iPhone (Codemagic, Xcode 26.6) | Orientación horizontal | UI adaptada | P1 correcto: aparece el `NavigationRail` lateral. P2: **pendiente** de descargar la captura del build | `p1_ios_16_horizontal.png` |
+| 16 | iOS · simulador de iPhone (Codemagic, Xcode 26.6) | Orientación horizontal | UI adaptada | Correcto: P1 muestra el `NavigationRail` lateral y P2 el tablero y el panel lado a lado | `p1_ios_16_horizontal.png`, `p2_ios_09_horizontal.png` |
 
 ## 8. Estado actual y limitaciones
 
 * **Android:** compilado y probado en dispositivo físico con pruebas de integración automáticas.
 * **iOS:** compilado y probado en el **simulador de iPhone** de Codemagic (macOS + Xcode); ambos workflows terminaron en verde y sus capturas están en `Practica4-KMP-Flutter/capturas/` (`p1_ios_*`, `p2_ios_*`). No se probó en un iPhone físico (requeriría firma con cuenta de Apple Developer), aunque el PDF admite simulador.
-* **Pendiente de verificar a mano:** el flujo completo de los selectores del sistema (elegir carpeta/archivos, exportar, compartir) y la captura horizontal de la Parte 2 en iOS (filas 15 y 16).
+* **Pendiente de verificar a mano:** el flujo completo de los selectores del sistema (elegir carpeta/archivos, exportar, compartir) y los selectores del sistema (fila 15).
 * La fecha de creación no la expone `dart:io` en Android/iOS: se muestra "No disponible".
 * Copiar y mover carpetas completas no está implementado (sólo archivos).
 * En Android 11+ el selector de carpetas devuelve rutas de árbol SAF limitadas; si el sistema no permite listarlas, la app muestra un aviso y no se bloquea.
