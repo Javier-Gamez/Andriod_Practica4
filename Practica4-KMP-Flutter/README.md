@@ -106,7 +106,9 @@ Las pruebas automáticas (`integration_test/app_test.dart` en cada app) se ejecu
 
 ## 6. Estado actual y limitaciones
 
-* Compilación Android verificada desde Windows. **iOS no puede compilarse en Windows**: los proyectos iOS están generados y configurados (`ios/`), pero hay que compilar y probar en macOS con Xcode (§3). El despliegue mínimo de iOS 15 debe confirmarse en Xcode (`IPHONEOS_DEPLOYMENT_TARGET = 15.0` ya configurado en el proyecto; el Podfile se genera en macOS con `flutter pub get`).
+* **Android:** compilado y probado en un Samsung SM-G998U (Android 14) con pruebas de integración automáticas.
+* **iOS:** compilado y probado en el **simulador de iPhone** de Codemagic (macOS + Xcode) con las mismas pruebas de integración; ambos workflows terminaron en verde y sus capturas están en `capturas/` (`p1_ios_*`, `p2_ios_*`). No se probó en un iPhone físico (requiere firma con cuenta de Apple Developer). El destino mínimo iOS 15.0 está configurado en el proyecto.
+* Pendiente de verificar a mano: modo avión, modo claro/oscuro en Android, rotación de pantalla y exportar/compartir con el selector del sistema.
 * La fecha de creación no se expone en `dart:io` en Android/iOS: se muestra "No disponible".
 * Copiar/mover carpetas completas no está implementado (sólo archivos).
 * En Android 11+ el selector de carpetas devuelve rutas de árbol SAF limitadas; si el sistema no permite listarlas la app muestra un aviso y no se bloquea.
