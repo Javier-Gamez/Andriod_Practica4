@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:juego_partidas/main.dart' as app;
@@ -117,5 +118,13 @@ void main() {
     await t.tap(find.text('Deshacer'));
     await t.pump(const Duration(milliseconds: 300));
     expect(find.textContaining('0 mov.'), findsOneWidget);
+
+    // --- Orientación horizontal (diseño responsivo) ---
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    await t.pump(const Duration(seconds: 2));
+    await shot(t, '09_horizontal');
+    expect(find.byType(AnimatedContainer), findsNWidgets(25));
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await t.pump(const Duration(seconds: 1));
   });
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gestor_archivos/main.dart' as app;
 import 'package:integration_test/integration_test.dart';
@@ -190,5 +191,13 @@ void main() {
     await settle(t);
     await shot(t, '15_tema_azul');
     expect(app.prefs.palette.name, 'azul');
+
+    // --- Orientación horizontal: aparece el NavigationRail (diseño responsivo) ---
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    await t.pump(const Duration(seconds: 2));
+    await shot(t, '16_horizontal');
+    expect(find.byType(NavigationRail), findsOneWidget);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await t.pump(const Duration(seconds: 1));
   });
 }

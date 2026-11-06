@@ -100,7 +100,7 @@ Las pruebas automáticas (`integration_test/app_test.dart` en cada app) se ejecu
 | 10 | Android 14 · Samsung SM-G998U (físico) | P2: archivos vacío, TXT incompleto y XML mal formado | Error legible, otras partidas intactas | Correcto: 3 "Dañada" y 3 válidas | `capturas/p2_android_04_lista_partidas.png` |
 | 11 | Android 14 · Samsung SM-G998U (físico) | P2: nivel 2, deshacer, tema Azul | Cuadrícula 5x5, deshacer revierte, tema azul | Correcto | `capturas/p2_android_08_nivel2.png`, `p2_android_06_opciones_azul.png` |
 | 12 | Ambos | Exportar/compartir con el selector del sistema | Se envía al destino elegido | Pendiente (requiere interacción manual con el selector) | — |
-| 13 | Android 14 · Samsung SM-G998U (físico) | Cambiar el sistema a modo claro y rotar la pantalla | Colores y UI adaptados | Modo claro correcto en P2 (tema Guinda→Azul de la app; ver captura). Rotación pendiente | `capturas/p2_android_avion_claro_menu.png` |
+| 13 | Android 14 · Samsung SM-G998U (físico) | Modo claro del sistema y orientación horizontal (forzada desde la prueba de integración) | Colores y UI adaptados | Correcto: modo claro (P2); en horizontal P1 muestra NavigationRail y P2 tablero + panel lado a lado | `capturas/p2_android_avion_claro_menu.png`, `p1_android_16_horizontal.png`, `p2_android_09_horizontal.png` |
 | 14 | iOS · simulador de iPhone en Codemagic (Xcode, macOS) | P1: prueba de integración completa (explorar, JSON/XML, imagen, metadatos, formato no soportado, renombrar/copiar/eliminar, favoritos, recientes, breadcrumbs, tema Azul) | Pasa en iOS y genera capturas | Correcto: build verde, 15/15 capturas | `capturas/p1_ios_01_explorar.png` … `p1_ios_15_tema_azul.png` |
 | 15 | iOS · simulador de iPhone en Codemagic | P2: prueba de integración (guardar en .txt/.xml/.json, archivos dañados, tema Azul, nivel 2, deshacer) | Pasa en iOS y genera capturas | Correcto: build verde, 8/8 capturas; 3 partidas válidas y 3 archivos marcados "Dañada" | `capturas/p2_ios_01_menu.png` … `p2_ios_08_nivel2.png` |
 
@@ -108,7 +108,8 @@ Las pruebas automáticas (`integration_test/app_test.dart` en cada app) se ejecu
 
 * **Android:** compilado y probado en un Samsung SM-G998U (Android 14) con pruebas de integración automáticas.
 * **iOS:** compilado y probado en el **simulador de iPhone** de Codemagic (macOS + Xcode) con las mismas pruebas de integración; ambos workflows terminaron en verde y sus capturas están en `capturas/` (`p1_ios_*`, `p2_ios_*`). No se probó en un iPhone físico (requiere firma con cuenta de Apple Developer). El destino mínimo iOS 15.0 está configurado en el proyecto.
-* Pendiente de verificar a mano: rotación de pantalla y exportar/compartir con el selector del sistema.
+* La orientación horizontal se verificó en Android forzándola desde la prueba de integración (`SystemChrome.setPreferredOrientations`); en iOS esa captura se generará al volver a ejecutar los workflows de Codemagic.
+* Pendiente de verificar a mano: exportar/compartir con el selector del sistema.
 * La fecha de creación no se expone en `dart:io` en Android/iOS: se muestra "No disponible".
 * Copiar/mover carpetas completas no está implementado (sólo archivos).
 * En Android 11+ el selector de carpetas devuelve rutas de árbol SAF limitadas; si el sistema no permite listarlas la app muestra un aviso y no se bloquea.
