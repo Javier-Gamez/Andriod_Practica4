@@ -82,7 +82,7 @@ void main() {
     expect(find.text('Partida'), findsNWidgets(3));
 
     // Ver contenido de una partida
-    await t.tap(find.byIcon(Icons.more_vert).last);
+    await t.tap(find.byType(PopupMenuButton<String>).last);
     await settle(t);
     await t.tap(find.text('Ver contenido'));
     await settle(t);
