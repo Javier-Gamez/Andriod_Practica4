@@ -116,7 +116,7 @@ Explora el **espacio privado de la app** (sandbox) y las carpetas/archivos que e
 | <img src="Practica4-KMP-Flutter/capturas/p1_android_15_tema_azul.png" width="230"> | <img src="Practica4-KMP-Flutter/capturas/p1_ios_15_tema_azul.png" width="230"> |
 | Tema Azul (ESCOM) | Tema Azul (ESCOM) |
 
-Vista horizontal (Android): <img src="Practica4-KMP-Flutter/capturas/p1_android_16_horizontal.png" width="520">
+Vista horizontal — Android: <img src="Practica4-KMP-Flutter/capturas/p1_android_16_horizontal.png" width="420"> · iOS: <img src="Practica4-KMP-Flutter/capturas/p1_ios_16_horizontal.png" width="420">
 
 ### Parte 2 – Apagón (juego con gestión de archivos)
 **Reglas:** al tocar una luz se invierte su estado y el de sus 4 vecinas; se gana apagándolas todas. Nivel 1 "Chispa" (3x3) y Nivel 2 "Tormenta" (5x5, se desbloquea al ganar el 1). Puntos = `tamaño·400 − 10·movimientos − segundos`. Los tableros se generan aplicando toques aleatorios a un tablero apagado, por lo que siempre tienen solución. Incluye deshacer, brillo animado, sonido del sistema y vibración.
@@ -199,13 +199,13 @@ Toda la lógica y la UI están en Dart (un único código para ambos sistemas). 
 | 13 | iOS · simulador de iPhone (Codemagic) | P1: prueba de integración completa (explorar, JSON/XML, imagen, metadatos, formato no soportado, renombrar/copiar/eliminar, favoritos, recientes, breadcrumbs, tema Azul) | Pasa en iOS y genera capturas | Correcto: build verde, 15/15 capturas | `p1_ios_01_explorar.png` … `p1_ios_15_tema_azul.png` |
 | 14 | iOS · simulador de iPhone (Codemagic) | P2: prueba de integración (3 formatos, archivos dañados, tema Azul, nivel 2, deshacer) | Pasa en iOS y genera capturas | Correcto: build verde, 8/8 capturas; 3 partidas válidas y 3 "Dañada" | `p2_ios_01_menu.png` … `p2_ios_08_nivel2.png` |
 | 15 | Android / iOS | Selector del sistema: "Elegir carpeta", "Abrir archivo(s)" (P1), exportar y compartir (P2) | Funciona con SAF / Document Picker; respeta cancelación | **Pendiente** (requiere interacción manual con pantallas del sistema) | — |
-| 16 | iOS · simulador | Orientación horizontal | UI adaptada | **Pendiente** (el paso ya está en la prueba; falta volver a ejecutar Codemagic) | — |
+| 16 | iOS · simulador de iPhone (Codemagic, Xcode 26.6) | Orientación horizontal | UI adaptada | P1 correcto: aparece el `NavigationRail` lateral. P2: **pendiente** de descargar la captura del build | `p1_ios_16_horizontal.png` |
 
 ## 8. Estado actual y limitaciones
 
 * **Android:** compilado y probado en dispositivo físico con pruebas de integración automáticas.
 * **iOS:** compilado y probado en el **simulador de iPhone** de Codemagic (macOS + Xcode); ambos workflows terminaron en verde y sus capturas están en `Practica4-KMP-Flutter/capturas/` (`p1_ios_*`, `p2_ios_*`). No se probó en un iPhone físico (requeriría firma con cuenta de Apple Developer), aunque el PDF admite simulador.
-* **Pendiente de verificar a mano:** el flujo completo de los selectores del sistema (elegir carpeta/archivos, exportar, compartir) y la captura horizontal en iOS (filas 15 y 16).
+* **Pendiente de verificar a mano:** el flujo completo de los selectores del sistema (elegir carpeta/archivos, exportar, compartir) y la captura horizontal de la Parte 2 en iOS (filas 15 y 16).
 * La fecha de creación no la expone `dart:io` en Android/iOS: se muestra "No disponible".
 * Copiar y mover carpetas completas no está implementado (sólo archivos).
 * En Android 11+ el selector de carpetas devuelve rutas de árbol SAF limitadas; si el sistema no permite listarlas, la app muestra un aviso y no se bloquea.
