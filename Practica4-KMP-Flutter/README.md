@@ -8,7 +8,7 @@ Se desarrollaron dos aplicaciones con **Flutter (Dart)**, ambas con objetivos An
 
 | Parte | Carpeta | Descripción |
 |---|---|---|
-| 1 | `parte1_gestor_archivos/` | Gestor de archivos: explora el espacio propio de la app y carpetas/archivos elegidos con el selector del sistema; visores de texto, JSON/XML con resaltado, imágenes con zoom y rotación; metadatos, recientes, favoritos, caché de miniaturas, copiar/mover/renombrar/eliminar. |
+| 1 | Android 14 · Samsung SM-G998U (físico), modo avión activo | Con modo avión, abrir las apps; P2: continuar la partida guardada | Funciona sin Internet | Correcto en P2: abre y recupera la partida (ícono de avión visible). P1 abrió sin errores, sin captura | `capturas/p2_android_avion_claro_menu.png` |
 | 2 | `parte2_juego/` | **Apagón**, juego de puzzle original (tablero de luces) con 2 niveles (3x3 y 5x5), puntuación, progreso, efectos visuales/sonido/vibración y guardado/carga en **TXT, XML y JSON**. |
 
 Ambas incluyen los temas **Guinda (IPN)** y **Azul (ESCOM)**, con modo claro/oscuro automático según el sistema.
@@ -100,7 +100,7 @@ Las pruebas automáticas (`integration_test/app_test.dart` en cada app) se ejecu
 | 10 | Android 14 · Samsung SM-G998U (físico) | P2: archivos vacío, TXT incompleto y XML mal formado | Error legible, otras partidas intactas | Correcto: 3 "Dañada" y 3 válidas | `capturas/p2_android_04_lista_partidas.png` |
 | 11 | Android 14 · Samsung SM-G998U (físico) | P2: nivel 2, deshacer, tema Azul | Cuadrícula 5x5, deshacer revierte, tema azul | Correcto | `capturas/p2_android_08_nivel2.png`, `p2_android_06_opciones_azul.png` |
 | 12 | Ambos | Exportar/compartir con el selector del sistema | Se envía al destino elegido | Pendiente (requiere interacción manual con el selector) | — |
-| 13 | Android 14 · Samsung SM-G998U (físico) | Cambiar modo claro/oscuro y rotar la pantalla | Colores y UI adaptados | Oscuro verificado; claro y rotación pendientes | — |
+| 13 | Android 14 · Samsung SM-G998U (físico) | Cambiar el sistema a modo claro y rotar la pantalla | Colores y UI adaptados | Modo claro correcto en P2 (tema Guinda→Azul de la app; ver captura). Rotación pendiente | `capturas/p2_android_avion_claro_menu.png` |
 | 14 | iOS · simulador de iPhone en Codemagic (Xcode, macOS) | P1: prueba de integración completa (explorar, JSON/XML, imagen, metadatos, formato no soportado, renombrar/copiar/eliminar, favoritos, recientes, breadcrumbs, tema Azul) | Pasa en iOS y genera capturas | Correcto: build verde, 15/15 capturas | `capturas/p1_ios_01_explorar.png` … `p1_ios_15_tema_azul.png` |
 | 15 | iOS · simulador de iPhone en Codemagic | P2: prueba de integración (guardar en .txt/.xml/.json, archivos dañados, tema Azul, nivel 2, deshacer) | Pasa en iOS y genera capturas | Correcto: build verde, 8/8 capturas; 3 partidas válidas y 3 archivos marcados "Dañada" | `capturas/p2_ios_01_menu.png` … `p2_ios_08_nivel2.png` |
 
@@ -108,7 +108,7 @@ Las pruebas automáticas (`integration_test/app_test.dart` en cada app) se ejecu
 
 * **Android:** compilado y probado en un Samsung SM-G998U (Android 14) con pruebas de integración automáticas.
 * **iOS:** compilado y probado en el **simulador de iPhone** de Codemagic (macOS + Xcode) con las mismas pruebas de integración; ambos workflows terminaron en verde y sus capturas están en `capturas/` (`p1_ios_*`, `p2_ios_*`). No se probó en un iPhone físico (requiere firma con cuenta de Apple Developer). El destino mínimo iOS 15.0 está configurado en el proyecto.
-* Pendiente de verificar a mano: modo avión, modo claro/oscuro en Android, rotación de pantalla y exportar/compartir con el selector del sistema.
+* Pendiente de verificar a mano: rotación de pantalla y exportar/compartir con el selector del sistema.
 * La fecha de creación no se expone en `dart:io` en Android/iOS: se muestra "No disponible".
 * Copiar/mover carpetas completas no está implementado (sólo archivos).
 * En Android 11+ el selector de carpetas devuelve rutas de árbol SAF limitadas; si el sistema no permite listarlas la app muestra un aviso y no se bloquea.
