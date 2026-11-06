@@ -35,11 +35,11 @@ Ambas aplicaciones incluyen los temas **Guinda (IPN)** y **Azul (ESCOM)** y se a
 
 | Elemento | Versión / valor |
 |---|---|
-| Flutter / Dart | 3.47.2 (canal stable) / 3.13.2 |
+| Flutter / Dart | 3.47.2 / 3.13.2 (equipo local, Android); 3.47.9 / 3.13.7 (Codemagic, iOS) — canal stable |
 | Android mínimo | API 24 (Android 7.0) — `minSdk = 24` en ambas apps |
 | Android probado | **Android 14**, Samsung SM-G998U (dispositivo físico, USB) |
 | iOS mínimo | iOS 15.0 (`IPHONEOS_DEPLOYMENT_TARGET = 15.0`) |
-| iOS probado | **Simulador de iPhone** en Codemagic (`mac_mini_m2`, Xcode "latest" y Flutter "stable" vigentes el 5-nov-2026; capturas de 1206x2622 px). No se registró el número exacto de versión de iOS/Xcode del simulador. |
+| iOS probado | **Simulador de iPhone** en Codemagic (`mac_mini_m2`): **Xcode 26.6** (build 17F113), CocoaPods 1.16.2, Flutter 3.47.9 / Dart 3.13.7 (versión del CI), runtime de iOS incluido con Xcode 26.6 (el número exacto del runtime no se leyó del log). Capturas de 1206x2622 px. |
 | Paquetes (ambas) | `path_provider`, `file_picker`, `shared_preferences`, `share_plus`, `path`, `xml`; `integration_test` (desarrollo) |
 | Paquetes (solo Parte 1) | `mime`, `open_filex` |
 
