@@ -205,7 +205,7 @@ Toda la lógica y la UI están en Dart (un único código para ambos sistemas). 
 
 * **Android:** compilado y probado en dispositivo físico con pruebas de integración automáticas.
 * **iOS:** compilado y probado en el **simulador de iPhone** de Codemagic (macOS + Xcode); ambos workflows terminaron en verde y sus capturas están en `Practica4-KMP-Flutter/capturas/` (`p1_ios_*`, `p2_ios_*`). No se probó en un iPhone físico (requeriría firma con cuenta de Apple Developer), aunque el PDF admite simulador.
-* **Pendiente de verificar a mano:** el flujo completo de los selectores del sistema (elegir carpeta/archivos, exportar, compartir) y los selectores del sistema (fila 15).
+* **Pendiente de verificar a mano:** el flujo completo de los selectores del sistema (elegir carpeta, abrir archivos, exportar y compartir; fila 15 de la matriz). La orientación horizontal ya está verificada en Android e iOS (fila 12 y fila 16).
 * La fecha de creación no la expone `dart:io` en Android/iOS: se muestra "No disponible".
 * Copiar y mover carpetas completas no está implementado (sólo archivos).
 * En Android 11+ el selector de carpetas devuelve rutas de árbol SAF limitadas; si el sistema no permite listarlas, la app muestra un aviso y no se bloquea.
